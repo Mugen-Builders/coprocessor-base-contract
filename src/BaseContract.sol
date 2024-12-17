@@ -40,11 +40,10 @@ abstract contract BaseContract is ICoprocessorCallback {
     /// @param _machineHash The machine hash associated with dapp whose logic the coProcessor would run
     /// @param _payloadHash The hash of the input payload
     /// @param outputs The outputs returned by the coprocessor
-    function coprocessorCallbackOutputsOnly(
-        bytes32 _machineHash,
-        bytes32 _payloadHash,
-        bytes[] calldata outputs
-    ) external override {
+    function coprocessorCallbackOutputsOnly(bytes32 _machineHash, bytes32 _payloadHash, bytes[] calldata outputs)
+        external
+        override
+    {
         require(msg.sender == address(coprocessor), "Unauthorized caller");
         require(_machineHash == machineHash, "Machine hash mismatch");
         require(computationSent[_payloadHash], "Computation not found");

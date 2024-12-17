@@ -7,9 +7,5 @@ import {BaseContract} from "../src/BaseContract.sol";
 contract CounterTest is Test {
     BaseContract public baseContract;
 
-    function setUp() public {
-       
-    }
-
-
+    function setUp() public {}
 }
