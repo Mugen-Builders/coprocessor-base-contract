@@ -1,66 +1,30 @@
-## Foundry
+## Co-Processor base contract
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
-
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
+**This is a base contract containing functions for calling with the co-processor and also a callback function to receive response from the co-processor. This function can be overridden where necessary or in the most simple implementation just the "handleCallback" function can be overridden to contain implementations to handle response from the co-processor.**
 
 ## Usage
 
-### Build
+### Installation
+
+- Install the base contract by running the following command
 
 ```shell
-$ forge build
+forge install https://github.com/Mugen-Builders/coprocessor-base-contract
 ```
 
-### Test
+- Import the base contract into your project through the following command:
 
-```shell
-$ forge test
+```solidity
+import "cartesi-coprocessor-base-contract/BaseContract.sol";
 ```
 
-### Format
+- Inherit the base contract and also populate the constructor parameters:
 
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+```solidity
+contract MyContract is BaseContract {
+    constructor(address _coprocessorAddress, bytes32 _machineHash)
+        BaseContract(_coprocessorAddress, _machineHash)
+    {}
+    // Add your Logic here
+}
 ```
