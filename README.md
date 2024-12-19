@@ -28,3 +28,9 @@ contract MyContract is BaseContract {
     // Add your Logic here
 }
 ```
+
+### Authors
+
+- Carsten Munk
+- Henrique Marlon
+- Idogwu Chinonso
