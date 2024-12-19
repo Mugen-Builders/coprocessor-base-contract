@@ -17,9 +17,6 @@ contract MockCoprocessor is ICoprocessor {
 contract TestBaseContract is BaseContract {
     constructor(address _coprocessorAddress, bytes32 _machineHash) BaseContract(_coprocessorAddress, _machineHash) {}
 
-    function testHandleCallback(bytes calldata notice) external {
-        handleCallback(notice);
-    }
 
     function handleCallCoProcessor(bytes calldata input) external {
         callCoprocessor(input);
@@ -40,7 +37,7 @@ contract BaseContractTest is Test {
         testBaseContract = new TestBaseContract(address(mockCoprocessor), MACHINE_HASH);
     }
 
-    function testInitialization() public {
+    function testInitialization() public view {
         assertEq(address(testBaseContract.coprocessor()), address(mockCoprocessor), "Coprocessor address mismatch");
         assertEq(testBaseContract.machineHash(), MACHINE_HASH, "Machine hash mismatch");
     }

@@ -10,6 +10,12 @@ abstract contract BaseContract is ICoprocessorCallback {
     ICoprocessor public coprocessor;
     bytes32 public machineHash;
 
+    error UnauthorizedCaller(address caller);
+    error InvalidOutputLength(uint256 length);
+    error ComputationNotFound(bytes32 payloadHash);
+    error MachineHashMismatch(bytes32 current, bytes32 expected);
+    error InvalidOutputSelector(bytes4 selector, bytes4 expected);
+
     /// @notice Tracks whether a computation has been sent for a specific input hash
     mapping(bytes32 => bool) public computationSent;
 
@@ -44,29 +50,44 @@ abstract contract BaseContract is ICoprocessorCallback {
         external
         override
     {
-        require(msg.sender == address(coprocessor), "Unauthorized caller");
-        require(_machineHash == machineHash, "Machine hash mismatch");
-        require(computationSent[_payloadHash], "Computation not found");
+        if (msg.sender != address(coprocessor)) {
+            revert UnauthorizedCaller(msg.sender);
+        }
 
-        // Process each output
+        if (_machineHash != machineHash) {
+            revert MachineHashMismatch(_machineHash, machineHash);
+        }
+
+        if (!computationSent[_payloadHash]) {
+            revert ComputationNotFound(_payloadHash);
+        }
+
         for (uint256 i = 0; i < outputs.length; i++) {
             bytes calldata output = outputs[i];
-            require(output.length > 3, "Output too short");
+
+            if (output.length <= 3) {
+                revert InvalidOutputLength(output.length);
+            }
 
             bytes4 selector = bytes4(output[:4]);
             bytes calldata arguments = output[4:];
 
-            require(selector == ICoprocessorOutputs.Notice.selector);
-            handleCallback(arguments);
+            if (selector != ICoprocessorOutputs.Notice.selector) {
+                revert InvalidOutputSelector(
+                    selector,
+                    ICoprocessorOutputs.Notice.selector
+                );
+            }
+
+            handleNotice(arguments);
         }
 
-        // Clean up the mapping
         delete computationSent[_payloadHash];
     }
 
     /// @notice Handles a notice from the coprocessor
     /// @param notice The notice data
-    function handleCallback(bytes calldata notice) internal virtual {
+    function handleNotice(bytes calldata notice) internal virtual {
         emit ResultReceived(notice);
     }
 }
