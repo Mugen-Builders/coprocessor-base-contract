@@ -73,10 +73,7 @@ abstract contract BaseContract is ICoprocessorCallback {
             bytes calldata arguments = output[4:];
 
             if (selector != ICoprocessorOutputs.Notice.selector) {
-                revert InvalidOutputSelector(
-                    selector,
-                    ICoprocessorOutputs.Notice.selector
-                );
+                revert InvalidOutputSelector(selector, ICoprocessorOutputs.Notice.selector);
             }
 
             handleNotice(arguments);

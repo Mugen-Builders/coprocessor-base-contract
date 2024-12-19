@@ -17,7 +17,6 @@ contract MockCoprocessor is ICoprocessor {
 contract TestBaseContract is BaseContract {
     constructor(address _coprocessorAddress, bytes32 _machineHash) BaseContract(_coprocessorAddress, _machineHash) {}
 
-
     function handleCallCoProcessor(bytes calldata input) external {
         callCoprocessor(input);
     }
