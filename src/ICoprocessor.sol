@@ -9,9 +9,5 @@ interface ICoprocessor {
     /// @param machineHash The hash of the machine to which the task is assigned
     /// @param input The ABI-encoded input data for the task
     /// @param callbackAddress The address to which the callback will be sent upon task completion
-    function issueTask(
-        bytes32 machineHash,
-        bytes calldata input,
-        address callbackAddress
-    ) external;
+    function issueTask(bytes32 machineHash, bytes calldata input, address callbackAddress) external;
 }

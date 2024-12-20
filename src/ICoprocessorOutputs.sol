@@ -13,9 +13,5 @@ interface ICoprocessorOutputs {
     /// @param destination The address to which the voucher is directed
     /// @param value The amount of ETH to transfer with the voucher
     /// @param payload The ABI-encoded payload containing the action data
-    function Voucher(
-        address destination,
-        uint256 value,
-        bytes calldata payload
-    ) external;
+    function Voucher(address destination, uint256 value, bytes calldata payload) external;
 }

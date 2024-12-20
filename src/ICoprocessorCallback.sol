@@ -9,9 +9,6 @@ interface ICoprocessorCallback {
     /// @param machineHash The hash of the machine that processed the task
     /// @param payloadHash The hash of the input payload that generated these outputs
     /// @param outputs Array of ABI-encoded outputs from the coprocessor
-    function coprocessorCallbackOutputsOnly(
-        bytes32 machineHash,
-        bytes32 payloadHash,
-        bytes[] calldata outputs
-    ) external;
+    function coprocessorCallbackOutputsOnly(bytes32 machineHash, bytes32 payloadHash, bytes[] calldata outputs)
+        external;
 }

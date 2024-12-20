@@ -50,11 +50,10 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
     /// @param _machineHash The hash of the machine that processed the task
     /// @param _payloadHash The hash of the input payload
     /// @param outputs Array of ABI-encoded outputs from the coprocessor
-    function coprocessorCallbackOutputsOnly(
-        bytes32 _machineHash,
-        bytes32 _payloadHash,
-        bytes[] calldata outputs
-    ) external override {
+    function coprocessorCallbackOutputsOnly(bytes32 _machineHash, bytes32 _payloadHash, bytes[] calldata outputs)
+        external
+        override
+    {
         if (msg.sender != address(coprocessor)) {
             revert UnauthorizedCaller(msg.sender);
         }
@@ -82,10 +81,7 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
             } else if (selector == ICoprocessorOutputs.Voucher.selector) {
                 _executeVoucher(arguments);
             } else {
-                revert InvalidOutputSelector(
-                    selector,
-                    ICoprocessorOutputs.Notice.selector
-                );
+                revert InvalidOutputSelector(selector, ICoprocessorOutputs.Notice.selector);
             }
         }
         delete computationSent[_payloadHash];
@@ -99,10 +95,7 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
         uint256 value;
         bytes memory payload;
 
-        (destination, value, payload) = abi.decode(
-            arguments,
-            (address, uint256, bytes)
-        );
+        (destination, value, payload) = abi.decode(arguments, (address, uint256, bytes));
 
         bool enoughFunds;
         uint256 balance;

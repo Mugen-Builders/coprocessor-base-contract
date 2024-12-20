@@ -23,10 +23,7 @@ contract TestCoprocessorAdapterSampl is Test {
     }
 
     function testCallCoprocessorAdapterSampleWithValilNoticeInput() public {
-        bytes memory encoded_tx = abi.encodeWithSignature(
-            "setNumber(uint256)",
-            1596
-        );
+        bytes memory encoded_tx = abi.encodeWithSignature("setNumber(uint256)", 1596);
 
         bytes memory payload = abi.encode(address(counter), encoded_tx);
 
@@ -45,32 +42,21 @@ contract TestCoprocessorAdapterSampl is Test {
 
         vm.prank(address(mock));
 
-        sample.coprocessorCallbackOutputsOnly(
-            machineHash,
-            keccak256(payload),
-            outputs
-        );
+        sample.coprocessorCallbackOutputsOnly(machineHash, keccak256(payload), outputs);
 
         uint256 number = counter.number();
         assertEq(number, 1596);
     }
 
     function testCallCoprocessorAdapterSampleWithValidVoucherInput() public {
-        bytes memory encoded_tx = abi.encodeWithSignature(
-            "setNumber(uint256)",
-            1596
-        );
+        bytes memory encoded_tx = abi.encodeWithSignature("setNumber(uint256)", 1596);
 
         bytes memory payload = abi.encode(address(counter), encoded_tx);
 
         sample.callCoprocessor(payload);
 
-        bytes memory voucher = abi.encodeWithSignature(
-            "Voucher(address,uint256,bytes)",
-            address(counter),
-            0,
-            encoded_tx
-        );
+        bytes memory voucher =
+            abi.encodeWithSignature("Voucher(address,uint256,bytes)", address(counter), 0, encoded_tx);
 
         bytes[] memory outputs = new bytes[](1);
         outputs[0] = voucher;
@@ -83,32 +69,21 @@ contract TestCoprocessorAdapterSampl is Test {
 
         vm.prank(address(mock));
 
-        sample.coprocessorCallbackOutputsOnly(
-            machineHash,
-            keccak256(payload),
-            outputs
-        );
+        sample.coprocessorCallbackOutputsOnly(machineHash, keccak256(payload), outputs);
 
         uint256 number = counter.number();
         assertEq(number, 1596);
     }
 
     function testCallCoprocessorAdapterSampleWithValidVoucherInputAndValue() public {
-        bytes memory encoded_tx = abi.encodeWithSignature(
-            "setNumberPaid(uint256)",
-            1596
-        );
+        bytes memory encoded_tx = abi.encodeWithSignature("setNumberPaid(uint256)", 1596);
 
         bytes memory payload = abi.encode(address(counter), encoded_tx);
 
         sample.callCoprocessor(payload);
 
-        bytes memory voucher = abi.encodeWithSignature(
-            "Voucher(address,uint256,bytes)",
-            address(counter),
-            1596,
-            encoded_tx
-        );
+        bytes memory voucher =
+            abi.encodeWithSignature("Voucher(address,uint256,bytes)", address(counter), 1596, encoded_tx);
 
         bytes[] memory outputs = new bytes[](1);
         outputs[0] = voucher;
@@ -118,26 +93,19 @@ contract TestCoprocessorAdapterSampl is Test {
         emit CoprocessorMock.TaskIssued(machineHash, payload, address(sample));
 
         vm.deal(address(sample), 2024);
-        
+
         sample.callCoprocessor(payload);
 
         vm.prank(address(mock));
 
-        sample.coprocessorCallbackOutputsOnly(
-            machineHash,
-            keccak256(payload),
-            outputs
-        );
+        sample.coprocessorCallbackOutputsOnly(machineHash, keccak256(payload), outputs);
 
         uint256 number = counter.number();
         assertEq(number, 1596);
     }
 
     function testCallCoprocessorAdapterSampleWithInvalidMachineHash() public {
-        bytes memory encoded_tx = abi.encodeWithSignature(
-            "setNumber(uint256)",
-            1596
-        );
+        bytes memory encoded_tx = abi.encodeWithSignature("setNumber(uint256)", 1596);
 
         bytes memory payload = abi.encode(address(counter), encoded_tx);
 
@@ -160,18 +128,11 @@ contract TestCoprocessorAdapterSampl is Test {
 
         vm.expectRevert();
 
-        sample.coprocessorCallbackOutputsOnly(
-            invalidMachineHash,
-            keccak256(payload),
-            outputs
-        );
+        sample.coprocessorCallbackOutputsOnly(invalidMachineHash, keccak256(payload), outputs);
     }
 
     function testCallCoprocessorAdapterSampleWithInvalidPayloadHash() public {
-        bytes memory encoded_tx = abi.encodeWithSignature(
-            "setNumber(uint256)",
-            1596
-        );
+        bytes memory encoded_tx = abi.encodeWithSignature("setNumber(uint256)", 1596);
 
         bytes memory payload = abi.encode(address(counter), encoded_tx);
 
@@ -194,10 +155,6 @@ contract TestCoprocessorAdapterSampl is Test {
 
         vm.expectRevert();
 
-        sample.coprocessorCallbackOutputsOnly(
-            machineHash,
-            invalidPayloadHash,
-            outputs
-        );
+        sample.coprocessorCallbackOutputsOnly(machineHash, invalidPayloadHash, outputs);
     }
 }
