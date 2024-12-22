@@ -6,7 +6,7 @@
 
 ### Installation
 
-- Install the base contract by running the following command
+- Install the base contract by running the following command:
 
 ```shell
 forge install https://github.com/Mugen-Builders/coprocessor-base-contract
