@@ -7,7 +7,7 @@ import {LibAddress} from "./library/LibAddress.sol";
 import {ICoprocessorOutputs} from "./ICoprocessorOutputs.sol";
 import {ICoprocessorCallback} from "./ICoprocessorCallback.sol";
 
-/// @title BaseContract
+/// @title CoprocessorAdapter
 /// @notice A base contract, which should be inherited for interacting with the Coprocessor
 abstract contract CoprocessorAdapter is ICoprocessorCallback {
     using LibError for bytes;
