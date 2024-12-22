@@ -19,4 +19,8 @@ contract CoprocessorAdapterSample is CoprocessorAdapter {
 
         (success, returndata) = destination.call(decodedPayload);
     }
+
+    function runExecution(bytes calldata input) external {
+        callCoprocessor(input);
+    }
 }

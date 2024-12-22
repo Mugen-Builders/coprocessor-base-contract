@@ -27,7 +27,7 @@ contract TestCoprocessorAdapterSampl is Test {
 
         bytes memory payload = abi.encode(address(counter), encoded_tx);
 
-        sample.callCoprocessor(payload);
+        sample.runExecution(payload);
 
         bytes memory notice = abi.encodeWithSignature("Notice(bytes)", payload);
 
@@ -38,7 +38,7 @@ contract TestCoprocessorAdapterSampl is Test {
 
         emit CoprocessorMock.TaskIssued(machineHash, payload, address(sample));
 
-        sample.callCoprocessor(payload);
+        sample.runExecution(payload);
 
         vm.prank(address(mock));
 
@@ -53,7 +53,7 @@ contract TestCoprocessorAdapterSampl is Test {
 
         bytes memory payload = abi.encode(address(counter), encoded_tx);
 
-        sample.callCoprocessor(payload);
+        sample.runExecution(payload);
 
         bytes memory voucher =
             abi.encodeWithSignature("Voucher(address,uint256,bytes)", address(counter), 0, encoded_tx);
@@ -65,7 +65,7 @@ contract TestCoprocessorAdapterSampl is Test {
 
         emit CoprocessorMock.TaskIssued(machineHash, payload, address(sample));
 
-        sample.callCoprocessor(payload);
+        sample.runExecution(payload);
 
         vm.prank(address(mock));
 
@@ -80,7 +80,7 @@ contract TestCoprocessorAdapterSampl is Test {
 
         bytes memory payload = abi.encode(address(counter), encoded_tx);
 
-        sample.callCoprocessor(payload);
+        sample.runExecution(payload);
 
         bytes memory voucher =
             abi.encodeWithSignature("Voucher(address,uint256,bytes)", address(counter), 1596, encoded_tx);
@@ -94,7 +94,7 @@ contract TestCoprocessorAdapterSampl is Test {
 
         vm.deal(address(sample), 2024);
 
-        sample.callCoprocessor(payload);
+        sample.runExecution(payload);
 
         vm.prank(address(mock));
 
@@ -109,7 +109,7 @@ contract TestCoprocessorAdapterSampl is Test {
 
         bytes memory payload = abi.encode(address(counter), encoded_tx);
 
-        sample.callCoprocessor(payload);
+        sample.runExecution(payload);
 
         bytes memory notice = abi.encodeWithSignature("Notice(bytes)", payload);
 
@@ -120,7 +120,7 @@ contract TestCoprocessorAdapterSampl is Test {
 
         emit CoprocessorMock.TaskIssued(machineHash, payload, address(sample));
 
-        sample.callCoprocessor(payload);
+        sample.runExecution(payload);
 
         vm.prank(address(mock));
 
@@ -136,7 +136,7 @@ contract TestCoprocessorAdapterSampl is Test {
 
         bytes memory payload = abi.encode(address(counter), encoded_tx);
 
-        sample.callCoprocessor(payload);
+        sample.runExecution(payload);
 
         bytes memory notice = abi.encodeWithSignature("Notice(bytes)", payload);
 
@@ -147,7 +147,7 @@ contract TestCoprocessorAdapterSampl is Test {
 
         emit CoprocessorMock.TaskIssued(machineHash, payload, address(sample));
 
-        sample.callCoprocessor(payload);
+        sample.runExecution(payload);
 
         vm.prank(address(mock));
 
