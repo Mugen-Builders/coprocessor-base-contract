@@ -22,8 +22,8 @@ import "cartesi-coprocessor-base-contract/BaseContract.sol";
 
 ```solidity
 contract MyContract is CoprocessorAdapter {
-    constructor(address _coprocessorAddress, bytes32 _machineHash)
-        CoprocessorAdapter(_coprocessorAddress, _machineHash)
+    constructor(address _taskIssuerAddress, bytes32 _machineHash)
+        CoprocessorAdapter(_taskIssuerAddress, _machineHash)
     {}
     // Add your Logic here
 }

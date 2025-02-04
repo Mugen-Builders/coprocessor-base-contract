@@ -4,7 +4,7 @@ pragma solidity 0.8.28;
 
 /// @title ICoprocessor Interface
 /// @notice Defines the interface for interacting with a coprocessor contract
-interface ICoprocessor {
+interface ITaskIssuer {
     /// @notice Issues a task to the coprocessor
     /// @param machineHash The hash of the machine to which the task is assigned
     /// @param input The ABI-encoded input data for the task

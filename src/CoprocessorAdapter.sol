@@ -2,7 +2,7 @@
 pragma solidity ^0.8.28;
 
 import {LibError} from "./library/LibError.sol";
-import {ICoprocessor} from "./ICoprocessor.sol";
+import {ITaskIssuer} from "./ITaskIssuer.sol";
 import {LibAddress} from "./library/LibAddress.sol";
 import {ICoprocessorOutputs} from "./ICoprocessorOutputs.sol";
 import {ICoprocessorCallback} from "./ICoprocessorCallback.sol";
@@ -14,7 +14,7 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
     using LibAddress for address;
 
     bytes32 public machineHash;
-    ICoprocessor public coprocessor;
+    ITaskIssuer public taskIssuer;
 
     error UnauthorizedCaller(address caller);
     error InvalidOutputLength(uint256 length);
@@ -26,10 +26,10 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
     mapping(bytes32 => bool) public computationSent;
 
     /// @notice Initializes the contract with the coprocessor address and machine hash
-    /// @param _coprocessorAddress Address of the coprocessor
+    /// @param _taskIssuer Address of the coprocessor task issuer
     /// @param _machineHash Initial machine hash
-    constructor(address _coprocessorAddress, bytes32 _machineHash) {
-        coprocessor = ICoprocessor(_coprocessorAddress);
+    constructor(address _taskIssuer, bytes32 _machineHash) {
+        taskIssuer = ITaskIssuer(_taskIssuer);
         machineHash = _machineHash;
     }
 
@@ -38,7 +38,7 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
     function callCoprocessor(bytes calldata input) internal {
         bytes32 inputHash = keccak256(input);
         computationSent[inputHash] = true;
-        coprocessor.issueTask(machineHash, input, address(this));
+        taskIssuer.issueTask(machineHash, input, address(this));
     }
 
     /// @notice Handles notices sent back from the coprocessor
@@ -54,7 +54,7 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
         external
         override
     {
-        if (msg.sender != address(coprocessor)) {
+        if (msg.sender != address(taskIssuer)) {
             revert UnauthorizedCaller(msg.sender);
         }
 
