@@ -44,7 +44,8 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
     /// @notice Handles notices sent back from the coprocessor
     /// @dev This function should be overridden by child contracts to define specific behavior
     /// @param notice ABI-encoded notice data
-    function handleNotice(bytes memory notice) internal virtual {}
+    /// @param payloadHash This is a hash of the initial input whose response/resolution is being returned
+    function handleNotice(bytes32 payloadHash, bytes memory notice) internal virtual {}
 
     /// @notice Callback function invoked by the coprocessor with computation outputs
     /// @param _machineHash The hash of the machine that processed the task
@@ -77,7 +78,7 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
             bytes calldata arguments = output[4:];
 
             if (selector == ICoprocessorOutputs.Notice.selector) {
-                handleNotice(abi.decode(arguments, (bytes)));
+                handleNotice(_payloadHash, abi.decode(arguments, (bytes)));
             } else if (selector == ICoprocessorOutputs.Voucher.selector) {
                 _executeVoucher(arguments);
             } else {

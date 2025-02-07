@@ -8,7 +8,7 @@ contract CoprocessorAdapterSample is CoprocessorAdapter {
         CoprocessorAdapter(_coprocessorAddress, _machineHash)
     {}
 
-    function handleNotice(bytes memory notice) internal override {
+    function handleNotice(bytes32 payloadHash, bytes memory notice) internal override {
         address destination;
         bytes memory decodedPayload;
 
