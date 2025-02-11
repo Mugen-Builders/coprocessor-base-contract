@@ -35,7 +35,7 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
 
     /// @notice Issues a task to the coprocessor
     /// @param input ABI-encoded input data for the coprocessor
-    function callCoprocessor(bytes calldata input) internal {
+    function callCoprocessor(bytes memory input) internal {
         bytes32 inputHash = keccak256(input);
         computationSent[inputHash] = true;
         taskIssuer.issueTask(machineHash, input, address(this));
