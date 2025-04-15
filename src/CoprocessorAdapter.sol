@@ -81,6 +81,8 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
                 handleNotice(_payloadHash, abi.decode(arguments, (bytes)));
             } else if (selector == ICoprocessorOutputs.Voucher.selector) {
                 _executeVoucher(arguments);
+            } else if (selector == ICoprocessorOutputs.DelegateCallVoucher.selector) {
+                _executeDelegateCallVoucher(arguments);
             } else {
                 revert InvalidOutputSelector(selector, ICoprocessorOutputs.Notice.selector);
             }
@@ -106,5 +108,17 @@ abstract contract CoprocessorAdapter is ICoprocessorCallback {
         if (!enoughFunds) {
             revert InsufficientFunds(value, balance);
         }
+    }
+
+    /// @notice Executes a delegatecall voucher
+    /// @dev This function decodes and executes a delegatecall voucher with the specified parameters
+    /// @param arguments ABI-encoded arguments
+    function _executeDelegateCallVoucher(bytes calldata arguments) internal {
+        address destination;
+        bytes memory payload;
+
+        (destination, payload) = abi.decode(arguments, (address, bytes));
+
+        destination.safeDelegateCall(payload);
     }
 }
