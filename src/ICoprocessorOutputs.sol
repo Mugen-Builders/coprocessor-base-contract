@@ -14,4 +14,11 @@ interface ICoprocessorOutputs {
     /// @param value The amount of ETH to transfer with the voucher
     /// @param payload The ABI-encoded payload containing the action data
     function Voucher(address destination, uint256 value, bytes calldata payload) external;
+
+    /// @notice A single-use permission to execute a specific delegate call
+    /// from the context of the application contract.
+    /// @param destination The address that will be called
+    /// @param payload The payload, which—in the case of Solidity
+    /// libraries—encodes a function call
+    function DelegateCallVoucher(address destination, bytes calldata payload) external;
 }
