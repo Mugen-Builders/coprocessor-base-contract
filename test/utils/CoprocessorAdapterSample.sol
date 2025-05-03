@@ -1,12 +1,16 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import "../../src/CoprocessorAdapter.sol";
+import "coprocessor-adapter-2.3.0/src/CoprocessorAdapter.sol";
 
 contract CoprocessorAdapterSample is CoprocessorAdapter {
-    constructor(address _coprocessorAddress, bytes32 _machineHash)
-        CoprocessorAdapter(_coprocessorAddress, _machineHash)
+    constructor(address _taskIssuerAddress, bytes32 _machineHash)
+        CoprocessorAdapter(_taskIssuerAddress, _machineHash)
     {}
+
+    function runExecution(bytes memory input) external {
+        callCoprocessor(input);
+    }
 
     function handleNotice(bytes32 payloadHash, bytes memory notice) internal override {
         address destination;
@@ -20,7 +24,5 @@ contract CoprocessorAdapterSample is CoprocessorAdapter {
         (success, returndata) = destination.call(decodedPayload);
     }
 
-    function runExecution(bytes calldata input) external {
-        callCoprocessor(input);
-    }
+
 }
