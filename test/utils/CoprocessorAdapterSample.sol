@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import "coprocessor-adapter-2.3.0/src/CoprocessorAdapter.sol";
+import "../../src/CoprocessorAdapter.sol";
 
 contract CoprocessorAdapterSample is CoprocessorAdapter {
     constructor(address _taskIssuerAddress, bytes32 _machineHash)
@@ -23,6 +23,4 @@ contract CoprocessorAdapterSample is CoprocessorAdapter {
 
         (success, returndata) = destination.call(decodedPayload);
     }
-
-
 }
